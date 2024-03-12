@@ -1,0 +1,24 @@
+
+SRC_FILES=udp_ingress.c
+OBJ=bpf_udp_change_ingress.bpf
+
+
+EGRESS_SRC_FILES=udp_egress.c
+EGRESS_OBJ=bpf_udp_change_egress.bpf
+
+#CLANG_TOOL=/home/haizhi/bpf/clang_llvm/clang+llvm-10.0.0-aarch64-linux-gnu/bin/clang
+CLANG_TOOL=/opt/clang+llvm-10.0.0-x86_64-linux-gnu-ubuntu-18.04/bin/clang
+
+#$(CLANG_TOOL) -O2 -Wall -g -target bpf -c $(SRC_FILES) -o $(OBJ)
+all: egress ingress
+
+
+ingress:
+	$(CLANG_TOOL) -O2 -Wall -g -target bpf -c $(SRC_FILES) -o $(OBJ)
+
+
+egress:
+	$(CLANG_TOOL) -O2 -Wall -g -target bpf -c $(EGRESS_SRC_FILES) -o $(EGRESS_OBJ)
+
+clean:
+	rm -rf $(OBJ) $(EGRESS_OBJ)
